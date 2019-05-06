@@ -6,6 +6,7 @@ var passport = require('passport');
 const mongoose = require('mongoose');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
+var likesRouter = require('./routes/likes');
 
 var app = express();
 
@@ -28,6 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
+app.use('/likes', likesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

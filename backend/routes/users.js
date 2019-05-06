@@ -1,10 +1,12 @@
 var express = require('express');
 var router = express.Router();
 const passport = require('passport');
+const User = require('../models/user');
 
-/* GET users listing. */
-router.get('/', passport.authenticate('jwt', {session: false}), function(req, res, next) {
-  res.send('respond with a resource');
+router.get('/', passport.authenticate('jwt', {session: false}), async function(req, res, next) {
+  const users = await User.find();
+
+  res.status(200).json(users);
 });
 
 module.exports = router;

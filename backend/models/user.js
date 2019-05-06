@@ -20,7 +20,6 @@ const UserSchema = new mongoose.Schema({
 UserSchema.plugin(uniqueValidator);
 
 UserSchema.pre('save', function(next) {
-    console.log(this)
     let user = this;
 
     if (!user.isModified('password')) {
