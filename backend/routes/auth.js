@@ -9,7 +9,7 @@ const passport = require('passport');
 router.post('/signup', async (req, res) => {
     const errors = {};
     const user = await User.findOne({username: req.body.username});
-    console.log(user);
+
     // return if user was found in database
     if(user){
         errors.username = 'Username already exists.';
@@ -20,8 +20,15 @@ router.post('/signup', async (req, res) => {
         username: req.body.username,
         password: req.body.password
     });
-    newUser.save();
-    return res.status(200).json();
+
+    try {
+        newUser.save();
+    } catch(e) {
+        errors.username = saveError;
+        return res.status(400).json(errors);
+    }
+
+    return res.status(200).json({});
 });
 
 router.post('/login', async (req, res) => {

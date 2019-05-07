@@ -35,10 +35,8 @@ UserSchema.pre('save', function(next) {
     let user = this;
 
     if (!user.isModified('password')) {
-        console.log("User password not modified");
         return next();
     } else {
-        console.log("User password IS modified");
     }
 
     bcrypt
@@ -48,7 +46,6 @@ UserSchema.pre('save', function(next) {
         })
         .then((hash) => {
             user.password = hash;
-            console.log("Hashing")
             next();
         })
         .catch((err) => {
