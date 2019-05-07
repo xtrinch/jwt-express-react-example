@@ -14,7 +14,19 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 8,
+        select: false,
     },
+});
+
+UserSchema.virtual('likes', {
+    ref: 'Like',
+    localField: '_id',
+    foreignField: 'likee',
+    count: true,
+});
+
+UserSchema.set('toJSON', {
+    virtuals: true
 });
 
 UserSchema.plugin(uniqueValidator);
@@ -23,7 +35,10 @@ UserSchema.pre('save', function(next) {
     let user = this;
 
     if (!user.isModified('password')) {
+        console.log("User password not modified");
         return next();
+    } else {
+        console.log("User password IS modified");
     }
 
     bcrypt
@@ -33,9 +48,13 @@ UserSchema.pre('save', function(next) {
         })
         .then((hash) => {
             user.password = hash;
+            console.log("Hashing")
             next();
         })
-        .catch((err) => next(err));
+        .catch((err) => {
+            console.log(err);
+            next(err);
+        });
 });
 
 UserSchema.methods.comparePassword = (candidatePassword, next) => {
