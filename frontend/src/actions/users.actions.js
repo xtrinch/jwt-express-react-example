@@ -1,5 +1,13 @@
 const apiUrl = "/api/";
 
+export const likeUser = (user) => {
+	return {
+		type: 'LIKE_USER',
+		user: user,
+		dispatchedAt: Date.now
+	}
+}
+
 export const fetchUsersSuccess = (users) => {
   return {
     type: 'FETCH_USERS_SUCCESS',
@@ -28,6 +36,7 @@ export const fetchUsers = () => {
 	    return fetch(apiUrl + "users")
             .then(response => {
             	console.log(response);
+
               // if(response.ok){
               //   response.json().then(data => {
               //     dispatch(fetchUsersSuccess(data.users));
