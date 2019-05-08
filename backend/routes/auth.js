@@ -4,10 +4,11 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const secret = process.env.SECRET || 'some other secret as default';
+const passport = require('passport');
 
-router.post('/register', async (req, res) => {
+router.post('/signup', async (req, res) => {
     const errors = {};
-    const user = User.findOne({username: req.body.username});
+    const user = await User.findOne({username: req.body.username});
 
     // return if user was found in database
     if(user){
@@ -19,15 +20,22 @@ router.post('/register', async (req, res) => {
         username: req.body.username,
         password: req.body.password
     });
-    newUser.save();
-    return res.status(200).json();
+
+    try {
+        newUser.save();
+    } catch(e) {
+        errors.username = saveError;
+        return res.status(400).json(errors);
+    }
+
+    return res.status(200).json({});
 });
 
 router.post('/login', async (req, res) => {
     const errors = {};
     const username = req.body.username
     const password = req.body.password;
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }).select("+password");
 
     // return if there was no user with this username found in the database
     if (!user) {
@@ -60,6 +68,22 @@ router.post('/login', async (req, res) => {
     return res.json({
         success: true,
         token: `Bearer ${token}` });
+});
+
+router.get('/me', passport.authenticate('jwt', {session: false}), async function(req, res, next) {
+    const username = req.user.username;
+    const dbUser = await User.findOne({ username });
+    res.status(200).json(dbUser);
+});
+
+router.post('/me/update-password', passport.authenticate('jwt', {session: false}), async function(req, res, next) {
+    const username = req.user.username;
+    const dbUser = await User.findOne({ username });
+    dbUser.password = req.body.password;
+    console.log(dbUser.password)
+    await dbUser.save();
+
+    res.status(200).json();
 });
 
 module.exports = router;
