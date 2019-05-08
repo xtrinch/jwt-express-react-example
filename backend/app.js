@@ -13,7 +13,7 @@ var app = express();
 const port = process.env.PORT || 3000;
 const dbPort = process.env.DB_PORT || 27017;
 const dbUrl = process.env.DB_URL || "localhost";
-const dbCollection = process.env.DB_COLLECTION || "auth-test";
+const dbCollection = process.env.DB_COLLECTION || "dev";
 
 mongoose.connect(`mongodb://${dbUrl}/${dbCollection}`, {useNewUrlParser: true})
     .then(_ => console.log('MongoDB connection success'))

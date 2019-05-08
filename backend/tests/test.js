@@ -2,22 +2,33 @@ var expect = require('chai').expect;
 const supertest = require('supertest');
 const mocha = require('mocha')
 var app = require('../app')
+const mongoose = require('mongoose');
 
 const userCredentials = {
     username: 'trina',
     password: 'monday123456'
 };
 
+process.env.DB_COLLECTION = "test";
+
 const baseUrl = supertest.agent(app);
 
 describe('app', function() {
     var res, body;
 
+    before(function (done) {
+        mongoose.connect(`mongodb://localhost/${process.env.DB_COLLECTION}`, {useNewUrlParser: true}, function(){
+            mongoose.connection.db.dropDatabase(function(){
+                done()
+            })
+        })
+    })
+
     describe('POST /signup', function() {
-        this.timeout(2500);
+        this.timeout(3000);
 
         before(async function () {
-            res = await baseUrl.post('/signup')
+            res = await baseUrl.post('/api/signup')
                 .set('Accept', 'application/json')
                 .set('Content-Type', 'application/json')
                 .send(userCredentials);
@@ -32,10 +43,10 @@ describe('app', function() {
     })
 
     describe('GET /most-liked', function() {
-        this.timeout(2500);
+        this.timeout(3000);
 
         before(async function () {
-            res = await baseUrl.get('/most-liked')
+            res = await baseUrl.get('/api/most-liked')
                 .set('Accept', 'application/json')
                 .set('Content-Type', 'application/json')
                 .send();
