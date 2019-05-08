@@ -35,18 +35,16 @@ export const fetchUsers = () => {
 	    // Returns a promise
 	    return fetch(apiUrl + "users")
             .then(response => {
-            	console.log(response);
-
-              // if(response.ok){
-              //   response.json().then(data => {
-              //     dispatch(fetchUsersSuccess(data.users));
-              //   })
-              // }
-              // else{
-              //   response.json().then(error => {
-              //     dispatch(fetchUsersFailed(error));
-              //   })
-              // }
-            })
+              if(response.ok){
+                response.json().then(data => {
+                  dispatch(fetchUsersSuccess(data.users));
+                }).catch(err => dispatch(fetchUsersFailed(err)));
+              }
+              else{
+                response.json().then(error => {
+                  dispatch(fetchUsersFailed(error));
+                }).catch(err => dispatch(fetchUsersFailed(err)));
+              }
+            }).catch((err) => {dispatch(fetchUsersFailed(err))})
 	}
 }

@@ -4,13 +4,13 @@ import appReducer from './App.reducer';
 import usersReducer from './Users.reducer';
 import signupReducer from './SignUp.reducer';
 import loginReducer from './Login.reducer';
-import forgotpasswordReducer from './ForgotPassword.reducer';
+import profileReducer from './Profile.reducer';
 
 export default combineReducers({
   app:appReducer,
   users:usersReducer,
   signup:signupReducer,
   login:loginReducer,
-  forgotpassword:forgotpasswordReducer,
+  profile:profileReducer,
   routing
 })

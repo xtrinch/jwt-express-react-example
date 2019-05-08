@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Users from './containers/Users.container';
 import SignUp from './containers/SignUp.container';
 import Login from './containers/Login.container';
-import ForgotPassword from './containers/ForgotPassword.container';
+import Profile from './containers/Profile.container';
 import { Navbar, Nav } from 'react-bootstrap';
 
 const store = configureStore();
@@ -29,8 +29,8 @@ class App extends Component {
                   <Nav.Link as={Link} to="/login/">
                     Login
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/forgotpassword/">
-                    Forgot password
+                  <Nav.Link as={Link} to="/profile/">
+                    Profile
                   </Nav.Link>
                 </Nav>
               </Navbar>
@@ -38,7 +38,7 @@ class App extends Component {
               <Route path="/" exact component={Users} />
               <Route path="/signup/" component={SignUp} />
               <Route path="/login/" component={Login} />
-              <Route path="/forgotpassword/" component={ForgotPassword} />
+              <Route path="/profile/" component={Profile} />
             </div>
           </Router>
       </Provider>

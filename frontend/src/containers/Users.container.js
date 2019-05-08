@@ -3,7 +3,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom'
 import * as userActions from '../actions/Users.actions';
 import { User } from '../components/User.component';
-import { ListGroup } from 'react-bootstrap';
+import { ListGroup, Card } from 'react-bootstrap';
 
 export class Users extends React.Component {
   constructor(props){
@@ -16,14 +16,18 @@ export class Users extends React.Component {
 
   render() {
   	return (
-  		<div>
-  			<h1 style={{padding: '20px'}}>Users</h1>
+  		<Card style={{ width: '90vw', margin: '0 auto', marginTop:'30px' }}>
+        <Card.Body>
+            <Card.Title>Users</Card.Title>
 	  		<ListGroup>
 		  		{this.props.state.users.map((value, index) => {
 			        return <User key={index} likeUser={this.props.likeUser} user={value}></User>
 			    })}
 		    </ListGroup>
-	    </div>
+		    {this.props.state.error && <div>Error while fetching users.</div>}
+		  	{this.props.state.loading && <div>Loading users...</div>}
+	    </Card.Body>
+	    </Card>
   	);
   }
 }
