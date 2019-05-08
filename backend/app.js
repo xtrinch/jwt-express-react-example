@@ -27,9 +27,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/', usersRouter);
-app.use('/', authRouter);
-app.use('/', likesRouter);
+app.use('/api/', usersRouter);
+app.use('/api/', authRouter);
+app.use('/api/', likesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

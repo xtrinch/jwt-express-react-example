@@ -15,12 +15,11 @@ export class User extends React.Component {
 
   render() {
   	return (
-  		<ListGroup.Item>
-        {this.props.user.username},
-        5 likes
-        &nbsp;&nbsp;
-        <Button variant="primary" onClick={this.likePerson}>Like</Button>
-      </ListGroup.Item>
+  		<tr>
+            <td>{this.props.user.username}</td>
+            <td>{this.props.user.likes}</td>
+            <td><Button variant="primary" onClick={this.likePerson}>Like</Button></td>
+      </tr>
   	);
   }
 }

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import configureStore from './store/configureStore';
-import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import {connect, Provider} from 'react-redux';
+import {BrowserRouter as Router, Route, Link, withRouter} from "react-router-dom";
 import Users from './containers/Users.container';
 import SignUp from './containers/SignUp.container';
 import Login from './containers/Login.container';
@@ -47,3 +47,4 @@ class App extends Component {
 }
 
 export default App;
+//export default withRouter(connect()(App))

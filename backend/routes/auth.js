@@ -7,14 +7,8 @@ const secret = process.env.SECRET || 'some other secret as default';
 const passport = require('passport');
 
 router.post('/signup', async (req, res) => {
-    const errors = {};
+    var errors = {};
     const user = await User.findOne({username: req.body.username});
-
-    // return if user was found in database
-    if(user){
-        errors.username = 'Username already exists.';
-        return res.status(400).json(errors);
-    }
 
     const newUser = new User({
         username: req.body.username,
@@ -22,10 +16,10 @@ router.post('/signup', async (req, res) => {
     });
 
     try {
-        newUser.save();
+        await newUser.save();
     } catch(e) {
-        errors.username = saveError;
-        return res.status(400).json(errors);
+        errors = e;
+        return res.status(400).json(e);
     }
 
     return res.status(200).json({});
@@ -39,15 +33,15 @@ router.post('/login', async (req, res) => {
 
     // return if there was no user with this username found in the database
     if (!user) {
-        errors.username = "No Account Found";
-        return res.status(404).json(errors);
+        errors.message = "No Account Found";
+        return res.status(400).json(errors);
     }
 
     isMatch = await bcrypt.compare(password, user.password);
 
     // return 400 if password does not match
     if (!isMatch) {
-        errors.password = "Password is incorrect";
+        errors.message = "Password is incorrect";
         return res.status(400).json(errors);
     }
 

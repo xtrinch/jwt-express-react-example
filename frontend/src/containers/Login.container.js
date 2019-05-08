@@ -3,6 +3,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom'
 import * as loginActions from '../actions/Login.actions';
 import { Form, Button, Card } from "react-bootstrap";
+import * as userActions from "../actions/Users.actions";
 
 export class Login extends React.Component {
   
@@ -13,10 +14,13 @@ export class Login extends React.Component {
       username: "",
       password: ""
     };
+
+    this.login = this.login.bind(this);
   }
 
-  login() {
-
+  login(e) {
+    this.props.loginRequest(this.state);
+    e.preventDefault();
   }
 
   handleChange = event => {
@@ -34,7 +38,7 @@ export class Login extends React.Component {
       <Card style={{ width: '18rem', margin: '0 auto', marginTop:'30px' }}>
         <Card.Body>
           <Card.Title>Login</Card.Title>
-          <Form onSubmit={this.login}>
+          <Form onSubmit={(e) => this.login(e)}>
             <Form.Group controlId="username">
               <Form.Label>Username</Form.Label>
               <Form.Control
@@ -60,6 +64,8 @@ export class Login extends React.Component {
             >
               Login
             </Button>
+            {this.props.state.loading && <div><br/>Logging you in...</div>}
+            {this.props.state.error && <div><br/>{JSON.stringify(this.props.state.errorMessage.message)}</div>}
           </Form>
         </Card.Body>
       </Card>      
@@ -70,12 +76,14 @@ export class Login extends React.Component {
 // map state from store to props
 const mapStateToProps = (state) => {
   return {
-    login: state.login
+    state: state.login
   }
 }
+
 // map actions to props
 const mapDispatchToProps = (dispatch) => {
   return {
+    loginRequest: (loginData) => dispatch(loginActions.login(loginData)),
   }
 }
 

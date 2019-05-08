@@ -1,5 +1,3 @@
-const apiUrl = "/api/";
-
 export const likeUser = (user) => {
 	return {
 		type: 'LIKE_USER',
@@ -33,11 +31,11 @@ export const fetchUsers = () => {
   return (dispatch) => {
 	dispatch(fetchUsersRequest());
 	    // Returns a promise
-	    return fetch(apiUrl + "users")
+	    return fetch( "/api/most-liked")
             .then(response => {
               if(response.ok){
                 response.json().then(data => {
-                  dispatch(fetchUsersSuccess(data.users));
+                  dispatch(fetchUsersSuccess(data));
                 }).catch(err => dispatch(fetchUsersFailed(err)));
               }
               else{
@@ -45,6 +43,6 @@ export const fetchUsers = () => {
                   dispatch(fetchUsersFailed(error));
                 }).catch(err => dispatch(fetchUsersFailed(err)));
               }
-            }).catch((err) => {dispatch(fetchUsersFailed(err))})
+            })
 	}
 }

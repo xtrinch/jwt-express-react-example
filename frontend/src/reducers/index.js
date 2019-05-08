@@ -1,4 +1,4 @@
-import { routerReducer as routing } from 'react-router-redux';
+import { routerReducer } from 'react-router-redux';
 import { combineReducers } from 'redux';
 import appReducer from './App.reducer';
 import usersReducer from './Users.reducer';
@@ -12,5 +12,5 @@ export default combineReducers({
   signup:signupReducer,
   login:loginReducer,
   profile:profileReducer,
-  routing
+  routing:routerReducer,
 })

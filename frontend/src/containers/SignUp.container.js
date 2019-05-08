@@ -14,6 +14,12 @@ export class SignUp extends React.Component {
       password: "",
       email: "",
     };
+    this.register = this.register.bind(this);
+  }
+
+  register(e) {
+    this.props.registerRequest(this.state);
+    e.preventDefault();
   }
 
   validateForm() {
@@ -32,13 +38,13 @@ export class SignUp extends React.Component {
   		<Card style={{ width: '18rem', margin: '0 auto', marginTop:'30px' }}>
         <Card.Body>
           <Card.Title>Register</Card.Title>
-          <Form onSubmit={this.login}>
+          <Form onSubmit={(e) => this.register(e)}>
             <Form.Group controlId="username">
               <Form.Label>Username</Form.Label>
               <Form.Control
                 autoFocus
                 type="text"
-                value={this.state.email}
+                value={this.state.username}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -47,7 +53,7 @@ export class SignUp extends React.Component {
               <Form.Control
                 value={this.state.email}
                 onChange={this.handleChange}
-                type="text"
+                type="email"
               />
             </Form.Group>
             <Form.Group controlId="password">
@@ -56,6 +62,7 @@ export class SignUp extends React.Component {
                 value={this.state.password}
                 onChange={this.handleChange}
                 type="password"
+                minLength={8}
               />
             </Form.Group>
             <Button
@@ -64,8 +71,11 @@ export class SignUp extends React.Component {
               type="submit"
               variant="primary"
             >
-              Login
+              Register
             </Button>
+            {this.props.state.loading && <div><br/>Registering you...</div>}
+            {this.props.state.error && <div><br/>{JSON.stringify(this.props.state.errorMessage.message)}</div>}
+            {this.props.state.success && <div><br/>Success! You can now log in.</div>}
           </Form>
         </Card.Body>
       </Card>
@@ -76,12 +86,13 @@ export class SignUp extends React.Component {
 // map state from store to props
 const mapStateToProps = (state) => {
   return {
-    signup: state.signup
+    state: state.signup
   }
 }
 // map actions to props
 const mapDispatchToProps = (dispatch) => {
   return {
+    registerRequest: (registerData) => dispatch(signupActions.register(registerData)),
   }
 }
 
