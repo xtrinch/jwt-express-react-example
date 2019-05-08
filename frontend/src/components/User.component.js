@@ -1,6 +1,5 @@
 import React from 'react';
-import { ListGroup, Button } from 'react-bootstrap';
-import * as userActions from '../actions/Users.actions';
+import { Button } from 'react-bootstrap';
 
 export class User extends React.Component {
   

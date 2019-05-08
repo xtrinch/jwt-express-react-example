@@ -1,4 +1,4 @@
-export const likeUser = (user) => {
+export const likeUserRequest = (user) => {
 	return {
 		type: 'LIKE_USER',
 		user: user,
@@ -45,4 +45,26 @@ export const fetchUsers = () => {
               }
             })
 	}
+}
+
+export const likeUser = (user) => {
+    return (dispatch) => {
+        dispatch(fetchUsersRequest());
+        // Returns a promise
+        return fetch( `/api/user/${user.username}/like`, {
+            method: 'POST',
+        })
+            .then(response => {
+                if(response.ok){
+                    response.json().then(data => {
+                        dispatch(fetchUsersSuccess(data));
+                    }).catch(err => dispatch(fetchUsersFailed(err)));
+                }
+                else{
+                    response.json().then(error => {
+                        dispatch(fetchUsersFailed(error));
+                    }).catch(err => dispatch(fetchUsersFailed(err)));
+                }
+            })
+    }
 }

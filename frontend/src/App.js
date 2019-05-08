@@ -8,14 +8,24 @@ import SignUp from './containers/SignUp.container';
 import Login from './containers/Login.container';
 import Profile from './containers/Profile.container';
 import { Navbar, Nav } from 'react-bootstrap';
+import { createBrowserHistory } from 'history';
+import {LOCATION_CHANGE} from "react-router-redux";
 
 const store = configureStore();
+const history = createBrowserHistory();
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    history.listen((location, action) => {
+      // clear alert on location change
+    });
+  }
   render() {
     return (
       <Provider store={store}>
-          <Router>
+          <Router history={history}>
             <div>
               <Navbar bg="dark" expand="lg" variant="dark">
                 <Navbar.Brand>Popularity app</Navbar.Brand>

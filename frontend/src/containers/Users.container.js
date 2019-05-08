@@ -21,9 +21,11 @@ export class Users extends React.Component {
             <Card.Title>Users</Card.Title>
 	  		<Table striped bordered hover>
                 <thead>
-                    <td>Username</td>
-                    <td># likes</td>
-                    <td></td>
+                    <tr>
+                        <td>Username</td>
+                        <td># likes</td>
+                        <td></td>
+                    </tr>
                 </thead>
                 <tbody>
 		  		{this.props.state.users.map((value, index) => {
