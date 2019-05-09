@@ -7,6 +7,7 @@
     "create-react-app": "^3.0.0",
     "history": "^4.9.0",
     "http-proxy-middleware": "^0.19.1",
+    "jwt-decode": "^2.2.0",
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.8",
     "react-dom": "^16.8.6",

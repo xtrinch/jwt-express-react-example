@@ -1,9 +1,25 @@
+import { userService } from "../services/authentication.service";
+
 export const likeUserRequest = (user) => {
 	return {
 		type: 'LIKE_USER',
 		user: user,
 		dispatchedAt: Date.now
 	}
+}
+
+export const likeUserSuccess = () => {
+    return {
+        type: 'LIKE_USER_SUCCESS',
+        dispatchedAt: Date.now
+    }
+}
+
+export const likeUserFailed = () => {
+    return {
+        type: 'LIKE_USER_FAILED',
+        dispatchedAt: Date.now
+    }
 }
 
 export const fetchUsersSuccess = (users) => {
@@ -28,43 +44,44 @@ export const fetchUsersRequest = () => {
 }
 
 export const fetchUsers = () => {
-  return (dispatch) => {
-	dispatch(fetchUsersRequest());
-	    // Returns a promise
-	    return fetch( "/api/most-liked")
-            .then(response => {
-              if(response.ok){
-                response.json().then(data => {
-                  dispatch(fetchUsersSuccess(data));
-                }).catch(err => dispatch(fetchUsersFailed(err)));
-              }
-              else{
-                response.json().then(error => {
-                  dispatch(fetchUsersFailed(error));
-                }).catch(err => dispatch(fetchUsersFailed(err)));
-              }
-            })
-	}
+  return async (dispatch) => {
+    dispatch(fetchUsersRequest());
+
+    const response = await fetch( "/api/most-liked");
+
+    if(response.ok){
+        response.json().then(data => {
+          dispatch(fetchUsersSuccess(data));
+        }).catch(err => dispatch(fetchUsersFailed(err)));
+    }
+    else{
+        response.json().then(error => {
+          dispatch(fetchUsersFailed(error));
+        }).catch(err => dispatch(fetchUsersFailed(err)));
+    }
+
+    return response;
+  }
 }
 
 export const likeUser = (user) => {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(fetchUsersRequest());
-        // Returns a promise
-        return fetch( `/api/user/${user.username}/like`, {
+
+        const response = await fetch( `/api/user/${user.username}/like`, {
             method: 'POST',
-        })
-            .then(response => {
-                if(response.ok){
-                    response.json().then(data => {
-                        dispatch(fetchUsersSuccess(data));
-                    }).catch(err => dispatch(fetchUsersFailed(err)));
-                }
-                else{
-                    response.json().then(error => {
-                        dispatch(fetchUsersFailed(error));
-                    }).catch(err => dispatch(fetchUsersFailed(err)));
-                }
-            })
+            headers: {
+                'Authorization': userService.getToken()
+            }
+        });
+
+        if(response.ok){
+            dispatch(likeUserSuccess());
+        }
+        else{
+            dispatch(likeUserFailed());
+        }
+
+        return response;
     }
 }

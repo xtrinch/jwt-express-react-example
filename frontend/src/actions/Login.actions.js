@@ -1,3 +1,5 @@
+import { userService } from "../services/authentication.service";
+
 export const loginSuccess = () => {
     return {
         type:'LOGIN_SUCCESS'
@@ -18,28 +20,30 @@ export const loginRequest = () => {
 }
 
 export const login = (loginData) => {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(loginRequest());
-        // Returns a promise
-        return fetch( "/api/login", {
+
+        const response = await fetch( "/api/login", {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(loginData),
         })
-            .then(response => {
-                if(response.ok){
-                    response.json().then(data => {
-                        dispatch(loginSuccess(data));
-                    }).catch(err => dispatch(loginFailed(err)));
-                }
-                else{
-                    response.json().then(error => {
-                        dispatch(loginFailed(error));
-                    }).catch(err => dispatch(loginFailed(err)));
-                }
-            })
+
+        if(response.ok){
+            response.json().then(data => {
+                dispatch(loginSuccess(data));
+                userService.setToken(data.token);
+            }).catch(err => dispatch(loginFailed(err)));
+        }
+        else{
+            response.json().then(error => {
+                dispatch(loginFailed(error));
+            }).catch(err => dispatch(loginFailed(err)));
+        }
+
+        return response;
     }
 }
