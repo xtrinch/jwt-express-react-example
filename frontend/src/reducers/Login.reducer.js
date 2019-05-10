@@ -11,7 +11,7 @@ const INITIAL_STATE = {
 const loginReducer = (currentState = INITIAL_STATE, action) => {
   switch (action.type) {
 	  case 'REINITIALIZE_STATE':
-		  return {...currentState, loading:false, error: false, errorMessage: {}, loggedIn: false};
+		  return {...currentState, loading:false, error: false, errorMessage: {}};
 	  case 'LOGIN_REQUEST':
 	  	return {...currentState, loading:true, error: false, errorMessage: {}, loggedIn: false};
 	  case 'LOGIN_FAILED':
