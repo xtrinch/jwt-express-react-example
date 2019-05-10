@@ -1,4 +1,4 @@
-# express-react-popularity-app
+# jwt-express-react-example
 
 A two part example application with a frontend and backend.
 
