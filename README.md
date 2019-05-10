@@ -19,7 +19,7 @@ A two part example application with a frontend and backend.
 ## Tools used
 
 - Node.js v8 (async/await functionality)
-- mongodb
+- mongodb, mongoose
 - Express.js
 - Passport for authentication
 - ReactJS
