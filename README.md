@@ -1,5 +1,3 @@
-# [WIP]
-
 # express-react-popularity-app
 
 A two part example application with a frontend and backend.
@@ -46,15 +44,15 @@ Features the following REST endpoints:
 
     Update the current user's password
     
-- /user/:id/
+- /user/:username/
 
     List username & number of likes of a user
 
-- **/user/:id/like**
+- **/user/:username/like**
 
     Like a user
 
-- **/user/:id/unlike**
+- **/user/:username/unlike**
 
     Unlike a user
 
