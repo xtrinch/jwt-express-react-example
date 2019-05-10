@@ -29,7 +29,7 @@ export class Users extends React.Component {
                 </thead>
                 <tbody>
 		  		{this.props.state.users.map((value, index) => {
-			        return <User key={index} likeUser={this.props.likeUser} unlikeUser={this.props.unlikeUser} user={value} appState={this.props.loginState}></User>
+			        return <User key={index} likeUser={this.props.likeUser} unlikeUser={this.props.unlikeUser} user={value} appState={this.props.loginState} profileState={this.props.profileState}></User>
 			    })}
                 </tbody>
 		    </Table>
@@ -46,6 +46,7 @@ const mapStateToProps = (state) => {
   return {
     state: state.users,
     loginState: state.login,
+    profileState: state.profile,
   }
 }
 

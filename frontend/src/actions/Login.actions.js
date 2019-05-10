@@ -1,4 +1,5 @@
 import { userService } from "../services/authentication.service";
+import {fetchUserData} from "./Profile.actions";
 
 export const getAuth = () => {
     return {
@@ -48,6 +49,7 @@ export const login = (loginData, ownProps) => {
             response.json().then(data => {
                 dispatch(loginSuccess(data));
                 userService.setToken(data.token);
+                dispatch(fetchUserData());
                 ownProps.history.push('/');
                 // TODO: redirect to home
             }).catch(err => dispatch(loginFailed(err)));

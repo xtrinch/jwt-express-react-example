@@ -77,7 +77,10 @@ export const fetchUsers = () => {
 
     if(response.ok){
         response.json().then(data => {
-          dispatch(fetchUsersSuccess(data));
+            data.sort(function(a, b){
+                return b.likes - a.likes;
+            });
+            dispatch(fetchUsersSuccess(data));
         }).catch(err => dispatch(fetchUsersFailed(err)));
     }
     else{
