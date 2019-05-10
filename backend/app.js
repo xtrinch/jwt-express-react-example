@@ -27,6 +27,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+if (env == 'production') {
+  app.use("/", express.static(path.join(path.dirname(__dirname), '/frontend/dist')))
+}
 app.use('/api/', usersRouter);
 app.use('/api/', authRouter);
 app.use('/api/', likesRouter);
