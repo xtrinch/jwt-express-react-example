@@ -2,6 +2,8 @@
 
 A two part example application with a frontend and backend.
 
+See it in action: http://jwt-express-react-example.trina.si/
+
 
 ## Functionality
 
