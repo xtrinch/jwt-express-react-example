@@ -12,7 +12,7 @@ var app = express();
 
 const port = process.env.PORT || 3000;
 const dbPort = process.env.DB_PORT || 27017;
-const dbUrl = process.env.DB_URL || "localhost";
+const dbUrl = process.env.MONGO_NAME || "localhost";
 const dbCollection = process.env.DB_COLLECTION || "dev";
 
 mongoose.connect(`mongodb://${dbUrl}/${dbCollection}`, {useNewUrlParser: true})
