@@ -26,7 +26,7 @@ A two part example application with a frontend and backend.
 - Redux for state management
 - Mocha for testing
 
-## Backend application
+## REST endpoints
 Features the following REST endpoints:
 
 - /signup
