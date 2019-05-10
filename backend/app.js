@@ -27,6 +27,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+var env = process.env.NODE_ENV || 'dev';
 if (env == 'production') {
   app.use("/", express.static(path.join(path.dirname(__dirname), '/frontend/dist')))
 }
