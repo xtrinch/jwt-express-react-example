@@ -24,12 +24,12 @@ export class Users extends React.Component {
                     <tr>
                         <td>Username</td>
                         <td># likes</td>
-                        { this.props.appState.loggedIn && <td></td> }
+                        { this.props.loginState.loggedIn && <td></td> }
                     </tr>
                 </thead>
                 <tbody>
 		  		{this.props.state.users.map((value, index) => {
-			        return <User key={index} likeUser={this.props.likeUser} unlikeUser={this.props.unlikeUser} user={value} appState={this.props.appState}></User>
+			        return <User key={index} likeUser={this.props.likeUser} unlikeUser={this.props.unlikeUser} user={value} appState={this.props.loginState}></User>
 			    })}
                 </tbody>
 		    </Table>
@@ -45,9 +45,10 @@ export class Users extends React.Component {
 const mapStateToProps = (state) => {
   return {
     state: state.users,
-    appState: state.app,
+    loginState: state.login,
   }
 }
+
 // map actions to props
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -56,5 +57,6 @@ const mapDispatchToProps = (dispatch) => {
     unlikeUser: (user) => dispatch(userActions.unlikeUser(user)),
   }
 }
+
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Users))
