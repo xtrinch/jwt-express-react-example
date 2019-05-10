@@ -24,6 +24,7 @@ A two part example application with a frontend and backend.
 - Passport for authentication
 - ReactJS
 - Redux for state management
+- Mocha for testing
 
 ## Backend application
 Features the following REST endpoints:
