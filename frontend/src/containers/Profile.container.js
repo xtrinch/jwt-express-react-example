@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import { withRouter } from 'react-router-dom'
-import * as profileActions from '../actions/Profile.actions';
 import { Form, Button, Card } from "react-bootstrap";
+import * as profileActions from "../actions/Profile.actions";
 
 export class ForgotPassword extends React.Component {
 
@@ -13,6 +13,10 @@ export class ForgotPassword extends React.Component {
       oldPassword: "",
       newPassword: ""
     };
+  }
+
+  componentWillMount(){
+    this.props.fetchUserData();
   }
 
   handleChange = event => {
@@ -30,6 +34,16 @@ export class ForgotPassword extends React.Component {
   		<Card style={{ width: '18rem', margin: '0 auto', marginTop:'30px' }}>
         <Card.Body>
           <Card.Title>Profile</Card.Title>
+          <div>
+            <h6>Username</h6>
+            <div>{this.props.state.me.username}</div>
+          </div>
+          <br/>
+          <div>
+            <h6>Email</h6>
+            <div>{this.props.state.me.email}</div>
+          </div>
+          <br/>
           <Form onSubmit={this.login}>
             <Form.Group controlId="email">
               <Form.Label>Old password</Form.Label>
@@ -65,12 +79,13 @@ export class ForgotPassword extends React.Component {
 // map state from store to props
 const mapStateToProps = (state) => {
   return {
-    forgotpassword: state.forgotpassword
+    state: state.profile
   }
 }
 // map actions to props
 const mapDispatchToProps = (dispatch) => {
   return {
+    fetchUserData: () => dispatch(profileActions.fetchUserData()),
   }
 }
 

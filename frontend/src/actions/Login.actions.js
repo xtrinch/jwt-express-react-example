@@ -1,5 +1,17 @@
 import { userService } from "../services/authentication.service";
 
+export const getAuth = () => {
+    return {
+        type:'GET_AUTH'
+    }
+}
+
+export const logoutSuccess = () => {
+    return {
+        type:'LOGOUT_SUCCESS'
+    }
+}
+
 export const loginSuccess = () => {
     return {
         type:'LOGIN_SUCCESS'
@@ -19,7 +31,7 @@ export const loginRequest = () => {
     }
 }
 
-export const login = (loginData) => {
+export const login = (loginData, ownProps) => {
     return async (dispatch) => {
         dispatch(loginRequest());
 
@@ -36,6 +48,8 @@ export const login = (loginData) => {
             response.json().then(data => {
                 dispatch(loginSuccess(data));
                 userService.setToken(data.token);
+                ownProps.history.push('/');
+                // TODO: redirect to home
             }).catch(err => dispatch(loginFailed(err)));
         }
         else{
@@ -45,5 +59,12 @@ export const login = (loginData) => {
         }
 
         return response;
+    }
+}
+
+export const logout = () => {
+    return (dispatch) => {
+        userService.logout();
+        dispatch(logoutSuccess());
     }
 }

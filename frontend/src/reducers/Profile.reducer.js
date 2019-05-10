@@ -1,9 +1,11 @@
 const INITIAL_STATE = {
-	forgotpassword: "Oh my god how could I forget?"
+	me: {}
 }
 
 const forgotpasswordReducer = (currentState = INITIAL_STATE, action) => {
   switch (action.type) {
+	  case 'PROFILE_DATA_REQ_SUCCESS':
+	  	return {...currentState, me:action.data}
 	default:
 	       return currentState;
 	}

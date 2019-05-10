@@ -10,6 +10,13 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         trim: true,
     },
+    email: {
+        type: String,
+        required: true,
+        minlength:1,
+        unique: true,
+        trim: true,
+    },
     password: {
         type: String,
         required: true,
@@ -19,6 +26,13 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.virtual('likes', {
+    ref: 'Like',
+    localField: '_id',
+    foreignField: 'likee',
+    count: true,
+});
+
+UserSchema.virtual('liked', {
     ref: 'Like',
     localField: '_id',
     foreignField: 'likee',

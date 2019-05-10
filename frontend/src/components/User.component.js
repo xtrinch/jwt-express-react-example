@@ -6,10 +6,15 @@ export class User extends React.Component {
   constructor(props) {
     super(props);
     this.likePerson = this.likePerson.bind(this);
+    this.unlikePerson = this.unlikePerson.bind(this);
   }
 
   likePerson() {
     this.props.likeUser(this.props.user);
+  }
+
+  unlikePerson() {
+    this.props.unlikeUser(this.props.user);
   }
 
   render() {
@@ -17,8 +22,9 @@ export class User extends React.Component {
   		<tr>
             <td>{this.props.user.username}</td>
             <td>{this.props.user.likes}</td>
-            <td><Button variant="primary" onClick={this.likePerson}>Like</Button></td>
-      </tr>
+            { this.props.appState.loggedIn && this.props.user.liked === 0 && <td><Button variant="primary" onClick={this.likePerson}>Like</Button></td> }
+            { this.props.appState.loggedIn && this.props.user.liked === 1 && <td><Button variant="primary" onClick={this.unlikePerson}>Unlike</Button></td> }
+        </tr>
   	);
   }
 }

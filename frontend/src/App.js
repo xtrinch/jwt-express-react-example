@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import './App.css';
-import configureStore from './store/configureStore';
-import {connect, Provider} from 'react-redux';
-import {BrowserRouter as Router, Route, Link, withRouter, Redirect} from "react-router-dom";
+import {connect} from 'react-redux';
+import {BrowserRouter as Router, Route, Link, Redirect} from "react-router-dom";
 import Users from './containers/Users.container';
 import SignUp from './containers/SignUp.container';
 import Login from './containers/Login.container';
 import Profile from './containers/Profile.container';
 import { Navbar, Nav } from 'react-bootstrap';
-import {LOCATION_CHANGE} from "react-router-redux";
 import {userService} from "./services/authentication.service";
-
-//const store = configureStore()
+import * as loginActions from './actions/Login.actions';
+import * as profileActions from './actions/Profile.actions';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
@@ -22,8 +20,13 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 )
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  // constructor(props) {
+  //   super(props);
+  // }
+
+  componentDidMount() {
+    this.props.getAuth()
+    this.props.fetchUserData();
   }
 
   render() {
@@ -32,29 +35,38 @@ class App extends Component {
             <div>
               <Navbar bg="dark" expand="lg" variant="dark">
                 <Navbar.Brand>Popularity app</Navbar.Brand>
-                <Nav>
+                <Nav className="mr-auto">
                   <Nav.Link as={Link} to="/">
                     List users
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/signup/">
-                    Sign up
-                  </Nav.Link>
-                  { !this.props.state.loggedIn &&
+                  {!this.props.loginState.loggedIn &&
+                    <Nav.Link as={Link} to="/signup/">
+                      Sign up
+                    </Nav.Link>
+                  }
+                  { !this.props.loginState.loggedIn &&
                     <Nav.Link as={Link} to="/login/">
                       Login
                     </Nav.Link>
                   }
-                  { this.props.state.loggedIn &&
+                  { this.props.loginState.loggedIn &&
                     <Nav.Link as={Link} to="/profile/">
                       Profile
                     </Nav.Link>
                   }
-                  { this.props.state.loggedIn &&
-                  <Nav.Link as={Link} to="/">
+                  { this.props.loginState.loggedIn &&
+                  <Nav.Link as={Link} to="/" onClick={(e) => {e.preventDefault(); this.props.logoutRequest()}} >
                     Log out
                   </Nav.Link>
                   }
                 </Nav>
+                {this.props.loginState.loggedIn &&
+                  <Navbar.Collapse className="justify-content-end">
+                    <Navbar.Text>
+                      Signed in as: <a href="#login">{this.props.profileState.me.username}</a>
+                    </Navbar.Text>
+                  </Navbar.Collapse>
+                }
               </Navbar>
 
               <Route path="/" exact component={Users} />
@@ -67,12 +79,23 @@ class App extends Component {
   }
 }
 
+// map actions to props
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logoutRequest: () => dispatch(loginActions.logout()),
+    getAuth: () => dispatch(loginActions.getAuth()),
+    fetchUserData: () => dispatch(profileActions.fetchUserData())
+  }
+}
+
 // map state from store to props
 const mapStateToProps = (state) => {
   return {
-    state: state.app
+    state: state.app,
+    loginState: state.login,
+    profileState: state.profile
   }
 }
 
 //export default App;
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

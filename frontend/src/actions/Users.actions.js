@@ -8,9 +8,31 @@ export const likeUserRequest = (user) => {
 	}
 }
 
+export const unlikeUserRequest = (user) => {
+    return {
+        type: 'UNLIKE_USER',
+        user: user,
+        dispatchedAt: Date.now
+    }
+}
+
+export const unlikeUserSuccess = () => {
+    return {
+        type: 'UNLIKE_USER_SUCCESS',
+        dispatchedAt: Date.now
+    }
+}
+
 export const likeUserSuccess = () => {
     return {
         type: 'LIKE_USER_SUCCESS',
+        dispatchedAt: Date.now
+    }
+}
+
+export const unlikeUserFailed = () => {
+    return {
+        type: 'UNLIKE_USER_FAILED',
         dispatchedAt: Date.now
     }
 }
@@ -47,7 +69,11 @@ export const fetchUsers = () => {
   return async (dispatch) => {
     dispatch(fetchUsersRequest());
 
-    const response = await fetch( "/api/most-liked");
+    const response = await fetch( "/api/most-liked", {
+        headers: {
+            'Authorization': userService.getToken()
+        }
+    });
 
     if(response.ok){
         response.json().then(data => {
@@ -66,8 +92,6 @@ export const fetchUsers = () => {
 
 export const likeUser = (user) => {
     return async (dispatch) => {
-        dispatch(fetchUsersRequest());
-
         const response = await fetch( `/api/user/${user.username}/like`, {
             method: 'POST',
             headers: {
@@ -81,6 +105,29 @@ export const likeUser = (user) => {
         else{
             dispatch(likeUserFailed());
         }
+
+        dispatch(fetchUsers());
+        return response;
+    }
+}
+
+export const unlikeUser = (user) => {
+    return async (dispatch) => {
+        const response = await fetch( `/api/user/${user.username}/unlike`, {
+            method: 'POST',
+            headers: {
+                'Authorization': userService.getToken()
+            }
+        });
+
+        if(response.ok){
+            dispatch(unlikeUserSuccess());
+        }
+        else{
+            dispatch(unlikeUserFailed());
+        }
+
+        dispatch(fetchUsers());
 
         return response;
     }

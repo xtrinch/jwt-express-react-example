@@ -5,6 +5,7 @@ export const userService = {
     setToken:setToken,
     isTokenExpired:isTokenExpired,
     getToken:getToken,
+    logout:logout,
 };
 
 function loggedIn() {
@@ -39,6 +40,7 @@ function getToken() {
 }
 
 function logout() {
+    console.log("logging out!")
     // Clear user token and profile data from localStorage
     localStorage.removeItem('id_token');
 }

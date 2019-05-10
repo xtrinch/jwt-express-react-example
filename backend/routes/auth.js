@@ -10,10 +10,7 @@ router.post('/signup', async (req, res) => {
     var errors = {};
     const user = await User.findOne({username: req.body.username});
 
-    const newUser = new User({
-        username: req.body.username,
-        password: req.body.password
-    });
+    const newUser = new User({...req.body});
 
     try {
         await newUser.save();

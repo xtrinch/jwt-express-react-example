@@ -3,12 +3,12 @@ import React from 'react';
 import { withRouter } from 'react-router-dom'
 import * as userActions from '../actions/Users.actions';
 import { User } from '../components/User.component';
-import { ListGroup, Card, Table } from 'react-bootstrap';
+import { Card, Table } from 'react-bootstrap';
 
 export class Users extends React.Component {
-  constructor(props){
-    super(props);
-  }
+  // constructor(props){
+  //   super(props);
+  // }
 
   componentWillMount(){
     this.props.fetchUsers();
@@ -24,12 +24,12 @@ export class Users extends React.Component {
                     <tr>
                         <td>Username</td>
                         <td># likes</td>
-                        <td></td>
+                        { this.props.appState.loggedIn && <td></td> }
                     </tr>
                 </thead>
                 <tbody>
 		  		{this.props.state.users.map((value, index) => {
-			        return <User key={index} likeUser={this.props.likeUser} user={value}></User>
+			        return <User key={index} likeUser={this.props.likeUser} unlikeUser={this.props.unlikeUser} user={value} appState={this.props.appState}></User>
 			    })}
                 </tbody>
 		    </Table>
@@ -44,7 +44,8 @@ export class Users extends React.Component {
 // map state from store to props
 const mapStateToProps = (state) => {
   return {
-    state: state.users
+    state: state.users,
+    appState: state.app,
   }
 }
 // map actions to props
@@ -52,6 +53,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
   	fetchUsers: () => dispatch(userActions.fetchUsers()),
   	likeUser: (user) => dispatch(userActions.likeUser(user)),
+    unlikeUser: (user) => dispatch(userActions.unlikeUser(user)),
   }
 }
 

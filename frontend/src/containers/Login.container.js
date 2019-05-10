@@ -3,7 +3,6 @@ import React from 'react';
 import { withRouter } from 'react-router-dom'
 import * as loginActions from '../actions/Login.actions';
 import { Form, Button, Card } from "react-bootstrap";
-import * as userActions from "../actions/Users.actions";
 
 export class Login extends React.Component {
   
@@ -81,9 +80,9 @@ const mapStateToProps = (state) => {
 }
 
 // map actions to props
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    loginRequest: (loginData) => dispatch(loginActions.login(loginData)),
+    loginRequest: (loginData) => dispatch(loginActions.login(loginData, ownProps)),
   }
 }
 
