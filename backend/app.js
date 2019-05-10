@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 
 var env = process.env.NODE_ENV || 'dev';
 if (env == 'production') {
-  app.use("/", express.static(path.join(path.dirname(__dirname), '/frontend/dist')))
+  app.use("/", express.static(path.join(path.dirname(__dirname), '/frontend/build')))
 }
 app.use('/api/', usersRouter);
 app.use('/api/', authRouter);
