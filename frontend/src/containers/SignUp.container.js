@@ -17,6 +17,10 @@ export class SignUp extends React.Component {
     this.register = this.register.bind(this);
   }
 
+  componentWillMount() {
+    this.props.reinitializeState();
+  }
+
   register(e) {
     this.props.registerRequest(this.state);
     e.preventDefault();
@@ -93,6 +97,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     registerRequest: (registerData) => dispatch(signupActions.register(registerData)),
+    reinitializeState: () => dispatch(signupActions.reinitializeState()),
   }
 }
 

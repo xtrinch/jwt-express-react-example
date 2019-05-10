@@ -68,3 +68,10 @@ export const logout = () => {
         dispatch(logoutSuccess());
     }
 }
+
+export const reinitializeState = () => {
+    return {
+        type:'REINITIALIZE_STATE'
+    }
+}
+

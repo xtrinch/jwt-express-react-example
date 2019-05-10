@@ -4,19 +4,20 @@ import { withRouter } from 'react-router-dom'
 import { Form, Button, Card } from "react-bootstrap";
 import * as profileActions from "../actions/Profile.actions";
 
-export class ForgotPassword extends React.Component {
+export class Profile extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      oldPassword: "",
-      newPassword: ""
+      oldpassword: "",
+      password: ""
     };
   }
 
   componentWillMount(){
     this.props.fetchUserData();
+    this.props.reinitializeState();
   }
 
   handleChange = event => {
@@ -26,7 +27,12 @@ export class ForgotPassword extends React.Component {
   }
   
   validateForm() {
-    return this.state.oldPassword.length > 0 && this.state.newPassword.length > 0;
+    return this.state.oldpassword.length > 0 && this.state.password.length > 0;
+  }
+
+  changePassword(e) {
+    this.props.changePassword(this.state);
+    e.preventDefault();
   }
 
   render() {
@@ -44,21 +50,23 @@ export class ForgotPassword extends React.Component {
             <div>{this.props.state.me.email}</div>
           </div>
           <br/>
-          <Form onSubmit={this.login}>
-            <Form.Group controlId="email">
+          <Form onSubmit={(e) => {e.preventDefault(); this.changePassword(e)}}>
+            <Form.Group controlId="oldpassword">
               <Form.Label>Old password</Form.Label>
               <Form.Control
-                value={this.state.oldPassword}
+                value={this.state.oldpassword}
                 onChange={this.handleChange}
-                type="text"
+                type="password"
+                minLength={8}
               />
             </Form.Group>
             <Form.Group controlId="password">
               <Form.Label>New password</Form.Label>
               <Form.Control
-                value={this.state.newPassword}
+                value={this.state.password}
                 onChange={this.handleChange}
                 type="password"
+                minLength={8}
               />
             </Form.Group>
             <Button
@@ -67,9 +75,11 @@ export class ForgotPassword extends React.Component {
               type="submit"
               variant="primary"
             >
-              Login
+              Change password
             </Button>
           </Form>
+          {this.props.state.changePassError && <div><br/>{JSON.stringify(this.props.state.changePassErrorMessage.message)}</div>}
+          {this.props.state.changePassSuccess && <div><br/>Success! You can now use your new password.</div>}
         </Card.Body>
       </Card>
   	);
@@ -86,7 +96,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchUserData: () => dispatch(profileActions.fetchUserData()),
+    changePassword: (data) => dispatch(profileActions.changePassword(data)),
+    reinitializeState: () => dispatch(profileActions.reinitializeState()),
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ForgotPassword))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile))

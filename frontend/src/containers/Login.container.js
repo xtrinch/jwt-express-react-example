@@ -17,6 +17,10 @@ export class Login extends React.Component {
     this.login = this.login.bind(this);
   }
 
+  componentWillMount() {
+    this.props.reinitializeState();
+  }
+
   login(e) {
     this.props.loginRequest(this.state);
     e.preventDefault();
@@ -83,6 +87,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     loginRequest: (loginData) => dispatch(loginActions.login(loginData, ownProps)),
+    reinitializeState: () => dispatch(loginActions.reinitializeState()),
   }
 }
 

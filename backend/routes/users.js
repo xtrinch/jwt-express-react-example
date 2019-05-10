@@ -3,15 +3,10 @@ var router = express.Router();
 const passport = require('passport');
 const User = require('../models/user');
 
-/*
-        "$expr": {
-          "$and": [
-            { "$eq": ["$name", "development"] },
-            { "$gte": [{ "$size": "$followers" }, followers_count ]}
-          ]
-        }
- */
 router.get('/most-liked', async function(req, res, next) {
+
+  // handle authentication manually, as we want the API to work in both cases,
+  // but to return 'liked' property if logged in
   passport.authenticate('jwt', async function(err, user, info) {
     var match = {}
     if (user) {
@@ -21,6 +16,7 @@ router.get('/most-liked', async function(req, res, next) {
     ).populate({path:'liked', match: match}).populate('likes');
     res.status(200).json(users);
   })(req, res, next);
+
 });
 
 router.get('/user/:username', async function(req, res, next) {

@@ -9,8 +9,9 @@ const INITIAL_STATE = {
 }
 
 const signupReducer = (currentState = INITIAL_STATE, action) => {
-	console.log(action)
 	switch (action.type) {
+		case 'REINITIALIZE_STATE':
+			return {...currentState, loading:false, error: false, errorMessage: "", success: false};
 	  case 'REGISTER_REQUEST':
 		  return {...currentState, loading:true, error: false, errorMessage: "", success: false};
 	  case 'REGISTER_FAILED':

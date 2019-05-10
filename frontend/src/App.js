@@ -60,10 +60,11 @@ class App extends Component {
                   </Nav.Link>
                   }
                 </Nav>
+
                 {this.props.loginState.loggedIn &&
                   <Navbar.Collapse className="justify-content-end">
                     <Navbar.Text>
-                      Signed in as: <a href="#login">{this.props.profileState.me.username}</a>
+                      Signed in as: <Link to="/profile/">{this.props.profileState.me.username}</Link>
                     </Navbar.Text>
                   </Navbar.Collapse>
                 }

@@ -69,11 +69,31 @@ router.get('/me', passport.authenticate('jwt', {session: false}), async function
 
 router.post('/me/update-password', passport.authenticate('jwt', {session: false}), async function(req, res, next) {
     const username = req.user.username;
-    const dbUser = await User.findOne({ username });
-    dbUser.password = req.body.password;
-    console.log(dbUser.password)
-    await dbUser.save();
+    const oldPassword = req.body.oldpassword;
+    const newPassword = req.body.password;
 
+    const dbUser = await User.findOne({ username }).select("+password");
+
+    const passwordMatch = await new Promise((resolve, reject) => {
+        bcrypt.compare(oldPassword, dbUser.password,function(err, isMatch){
+            console.log(err)
+
+            if(err) return reject(err);
+            resolve(isMatch)
+        })
+    })
+    if (!passwordMatch) {
+        return res.status(400).json({message:"Old password incorrect."});
+    }
+
+    console.log(dbUser)
+    dbUser.password = newPassword;
+    console.log(dbUser.password)
+    try {
+        await dbUser.save();
+    } catch (e) {
+        return res.status(400).json(e);
+    }
     res.status(200).json();
 });
 

@@ -43,3 +43,9 @@ export const register = (loginData) => {
             })
     }
 }
+
+export const reinitializeState = () => {
+    return {
+        type:'REINITIALIZE_STATE'
+    }
+}
