@@ -13,7 +13,7 @@ router.get('/most-liked', async function(req, res, next) {
       match = {liker: user.id};
     }
     const users = await User.find(
-    ).populate({path:'liked', match: match}).populate('likes');
+    ).populate({path:'liked', match: match}).populate('likes').sort({'likes': -1});
     res.status(200).json(users);
   })(req, res, next);
 
