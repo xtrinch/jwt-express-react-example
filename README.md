@@ -2,7 +2,7 @@
 
 A two part example application with a frontend and backend.
 
-See it in action: http://jwt-express-react-example.trina.si/
+Try it out at: http://jwt-express-react-example.trina.si/
 
 
 ## Functionality
@@ -20,13 +20,13 @@ See it in action: http://jwt-express-react-example.trina.si/
 
 ## Tools used
 
-- Node.js v8 (async/await functionality)
-- mongodb, mongoose
-- Express.js
-- Passport for authentication
-- ReactJS
-- Redux for state management
-- Mocha for testing
+- [Node.js](https://nodejs.org/en/) v8 (async/await functionality)
+- [mongodb](https://www.mongodb.com/), [mongoose](https://mongoosejs.com/)
+- [Express.js](https://expressjs.com/)
+- [Passport.js](http://www.passportjs.org/) for authentication
+- [ReactJS](https://reactjs.org/)
+- [Redux](https://redux.js.org/) for state management
+- [Mocha](https://mochajs.org/) for testing
 
 ## REST endpoints
 Features the following REST endpoints:
